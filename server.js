@@ -17,12 +17,14 @@ request("https://techcrunch.com/", function(error, response, html) {
   $("div.block-content").each(function(i, element) {
 
     var title = $(element).children("h2.post-title").text();
+    var byline = $(element).children("div.byline").find("a").text();
     var link = $(element).find("h2.post-title").find("a").attr("href");
     var summary = $(element).children("p.excerpt").text();
 
     // Save these results in an object that we'll push into the results array we defined earlier
     results.push({
       title: title,
+      by: byline,
       link: link,
       summary: summary
     });
