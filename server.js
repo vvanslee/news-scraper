@@ -3,6 +3,8 @@ var mongojs = require("mongojs");
 var cheerio = require("cheerio");
 var request = require("request");
 var mongoose = require("mongoose");
+var bodyParser = require("body-parser");
+var logger = require("morgan");
 
 mongoose.Promise = Promise;
 
@@ -13,7 +15,15 @@ mongoose.connect("mongodb://localhost/news-scraper" ||
 
 // Initialize Express
 var app = express();
+
+app.use(logger("dev"));
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
+
 app.use(express.static("public"));
+
+var router = express.Router();
 
 // Database configuration
 var databaseUrl = "news-scraper";
@@ -33,7 +43,7 @@ db.once("open", function() {
     console.log("Mongoose connection successful");
 });
 
-app.get("/scrape", function (req, res) {
+router.get("/scrape", function (req, res) {
 // Make a request call to grab the HTML body from techcrunch.com
     request(siteUrl, function(error, response, html) {
         
@@ -62,7 +72,7 @@ app.get("/scrape", function (req, res) {
     });
 });
 
-app.get("/all", function(req, res) {
+router.get("/all", function(req, res) {
     // Query: In database, go to the scrapedData collection, then "find" everything
     db.scrapedData.find({}, function(error, found) {
       // Log any errors if the server encounters one
