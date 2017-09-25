@@ -5,6 +5,7 @@ var request = require("request");
 
 // Initialize Express
 var app = express();
+app.use(express.static("public"));
 
 // Database configuration
 var databaseUrl = "news-scraper";
@@ -44,11 +45,29 @@ app.get("/scrape", function (req, res) {
                 }, function (result) {
                     res.json(result);
                 });
-            }
-                
+            }    
         });
     });
 });
+
+
+app.get("/all", function(req, res) {
+    // Query: In database, go to the scrapedData collection, then "find" everything
+    db.scrapedData.find({}, function(error, found) {
+      // Log any errors if the server encounters one
+      if (error) {
+        console.log(error);
+      }
+      // Otherwise, send the result of this query to the browser
+      else {
+        res.json(found);
+      }
+    });
+  });
+
+
+
+
 
 // Listen on port 3000
 app.listen(3000, function() {
