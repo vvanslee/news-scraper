@@ -50,7 +50,6 @@ app.get("/scrape", function (req, res) {
     });
 });
 
-
 app.get("/all", function(req, res) {
     // Query: In database, go to the scrapedData collection, then "find" everything
     db.scrapedData.find({}, function(error, found) {
@@ -64,10 +63,6 @@ app.get("/all", function(req, res) {
       }
     });
   });
-
-
-
-
 
 // Listen on port 3000
 app.listen(3000, function() {
