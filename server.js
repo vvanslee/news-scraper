@@ -2,6 +2,11 @@ var express = require("express");
 var mongojs = require("mongojs");
 var cheerio = require("cheerio");
 var request = require("request");
+var mongoose = require("mongoose");
+
+mongoose.Promise = Promise;
+mongoose.connect("mongodb://localhost/news-scraper" ||
+"mongodb://heroku_1q40z5b9:5vmj9iovurii3geln8h9b54gu8@ds149124.mlab.com:49124/heroku_1q40z5b9");
 
 // Initialize Express
 var app = express();
@@ -15,10 +20,14 @@ var collections = ["scrapedData"];
 var siteUrl = "https://techcrunch.com/";
 
 // Hook mongojs configuration to the db variable
-var db = mongojs(databaseUrl, collections);
+var db = mongoose.connection;
 
 db.on("error", function(error) {
   console.log("Database Error:", error);
+});
+
+db.once("open", function() {
+    console.log("Mongoose connection successful");
 });
 
 app.get("/scrape", function (req, res) {
