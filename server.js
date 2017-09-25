@@ -35,15 +35,17 @@ app.get("/scrape", function (req, res) {
             var link = $(element).find("h2.post-title").find("a").attr("href");
             var summary = $(element).children("p.excerpt").text();
 
-            db.scrapedData.insert({
-                title: title,
-                byline: byline,
-                link: link,
-                summary: summary
-            }, function (result) {
-                res.json(result);
-            });
-
+            if (title !== "") {
+                db.scrapedData.insert({
+                    title: title,
+                    byline: byline,
+                    link: link,
+                    summary: summary
+                }, function (result) {
+                    res.json(result);
+                });
+            }
+                
         });
     });
 });
