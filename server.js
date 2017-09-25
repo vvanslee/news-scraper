@@ -5,6 +5,9 @@ var request = require("request");
 var mongoose = require("mongoose");
 
 mongoose.Promise = Promise;
+
+var PORT = process.env.PORT || 3000;
+
 mongoose.connect("mongodb://localhost/news-scraper" ||
 "mongodb://heroku_1q40z5b9:5vmj9iovurii3geln8h9b54gu8@ds149124.mlab.com:49124/heroku_1q40z5b9");
 
